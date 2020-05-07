@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto AereopueroPerucho By CodiGo</title>
+</head>
+<body>
+    <h1>Vuelo{{ vuelo.id }}</h1>
+    <ul>
+        <li>Origen {{ vuelo.origen }}</li>
+        <li>Destino {{ vuelo.destino }}</li>
+    </ul>
+    <h2>Pasajeros</h2>
+    <ul>
+        {% for pasajero in pasajeros %}
+        <li>{{pasajero}} </li>
+        {% empty %}
+        <li>no hay pasajeros en dicho vuelo</li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <h2>Adicionar Pasajeros</h2>
+    {% if no_pasajeros %}
+    <form action="{% url 'reservar' vuelo.id %}" method="POST">
+        {% csrf_token %}
+        <select name="pasajero">
+            {% for pasajero in no_pasajeros %}
+            <option value="{{pasajero.id}}">{{pasajero}}</option>
+            {% endfor %}            
+        </select>
+        <input type="submit" value="Reservar un vuelo">
+    </form>
+        {% else %}
+        <div>Todos los pasajeros ya estan el vuelo</div>
+        {% endif %}
+    
+    <a href="{% url 'index' %}">Regresar a la Lista</a>
+    
+</body>
+</html>
